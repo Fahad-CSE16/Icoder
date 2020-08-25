@@ -1,0 +1,54 @@
+{% extends 'home/basic.html' %}
+
+{% block title%} Blog Home {% endblock %}
+ {% block blogactive %} active{% endblock blogactive %}
+
+{% block body %}
+<div class="container">
+{% load static %}
+
+    <div class="row my-2">
+    {% comment %} {{myposts|dictsort:"views" }} {% endcomment %}
+        {% for item in myposts %}
+        {% comment %} <img src="{% static "blog/{{item.thumbnail}}" %}" alt=""/> {% endcomment %}
+        <div class="col-md-6">
+            <div
+                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">{{item.author}}</strong>
+                    <h3 class="mb-0">{{item.title|safe}}</h3>
+                    <div class="mb-1 text-muted">{{item.timeStamp}}</div>
+                    <div class="preview">
+                    
+                    <p class="card-text mb-auto">{{item.content|safe|truncatechars:350}}</p>
+                    </div>
+                    <a href="{{item.slug}}" class="stretched-link">Continue reading...</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="/media/{{item.thumbnail}}" class="bd-placeholder-img" width="200" height="250"
+                        aria-label="Placeholder:thumbnail">
+            
+                        
+
+                    </img>
+                </div>
+            </div>
+        </div>
+             {% if forloop.counter|divisibleby:2 %}
+    </div>
+    <div class="row my-2">
+            {%  endif %}
+            {% endfor %}
+
+</div>
+
+
+{% endblock %}
+ {% block js %}
+ <script>
+    Let previews = document.getElementsByClassName('.preview');
+    array.from(previews).forEach((element) => {
+        element.innerHTML=element.innerText;
+    })
+ </script>
+  {% endblock js %}
